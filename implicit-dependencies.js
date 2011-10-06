@@ -9,7 +9,7 @@
     , reIsLocal = /^\.{0,2}\//
     ;
 
-  function handleModule(modulePath, callback) {
+  function handleModule(modulePath, masterCallback) {
 
     function readScript(pathname, callback) {
       var paths
@@ -20,7 +20,7 @@
       function onFileRead(err, data) {
         if (err) {
           console.error('[ERROR (readScript)] :', pathname);
-          throw err;
+          callback(err);
           return;
         }
 
@@ -29,9 +29,7 @@
 
       function onDirRead(err, nodes) {
         if (err) {
-          console.error('ERROR [onDirRead]:', pathname);
-          throw err;
-          console.error(err);
+          callback(new Error("Couldn't find \"" + modulePath + '/' + paths.join('/') + "\""));
           return;
         }
 
@@ -110,11 +108,11 @@
 
           function onShownLocalDeps(err, tree) {
             if (err) {
-              console.error('ERR: [localpath]', pkgname, pkgroot, pathname, nextName);
-              throw err;
+              deps[dep] = { error: err };
+            } else {
+              deps[dep] = tree;
             }
 
-            deps[dep] = tree;
             deps[dep].require = requireString;
             deps[dep].nextName = nextName;
             deps[dep].dep = dep;
@@ -124,19 +122,17 @@
 
           function onShownModuleDeps(err, tree) {
             if (err) { 
-              console.warn('WARN: [pkgname] couldn\'t find:', pkgname, pkgroot, pathname, nextName);
-              //throw err;
-              // mark as possible npm dep since both 'foo' and 'foo/bar' could be valid package names
-              next();
-              return;
+              tree = tree || {};
+              tree.warning = {
+                  code: 300
+                , symbol: 'AMBIGUOUS_DEPENDENCY'
+                , message: 'This module appeared as though it should be local, but may be in npm'
+              };
             }
 
-            deps[dep] = tree;
-            deps[dep].require = requireString;
-            deps[dep].nextName = nextName;
-            deps[dep].dep = dep;
-            deps[dep].package = pkgname;
-            next();
+            //console.warn('WARN: [pkgname] couldn\'t find:', pkgname, pkgroot, pathname, nextName);
+            // mark as possible npm dep since both 'foo' and 'foo/bar' could be valid package names
+            onShownLocalDeps(null, tree);
           }
 
           if (reIsLocal.exec(dep)) {
@@ -174,10 +170,10 @@
 
       function onReadScript(err, dir, name, str) {
         if (err) {
-          console.error('ERROR [onReadScript]: ', dir, name, err);
-          throw err;
+          callback(err); // put more info in?
           return;
         }
+
         dirname = dir;
         filename = name;
         script = str;
@@ -190,7 +186,7 @@
     function onPackageJsonRead(err, meta) {
       if (err) {
         throw err;
-        callback(err);
+        masterCallback(err);
         return;
       }
 
@@ -198,7 +194,7 @@
         meta = JSON.parse(meta.toString('utf8'));
       } catch(e) {
         throw e;
-        callback(e);
+        masterCallback(e);
         return;
       }
 
@@ -206,7 +202,7 @@
       meta.submoduleName = meta.main || 'index.js';
       meta.submodulePath = '';//modulePath + '/' + (meta.lib || '');
 
-      showDepsFile(meta, callback);
+      showDepsFile(meta, masterCallback);
     }
 
     fs.readFile(modulePath + '/package.json', onPackageJsonRead);
