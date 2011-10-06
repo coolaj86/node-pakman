@@ -35,8 +35,6 @@
           return;
         }
 
-        console.log('[name]', paths.join('/'), name + '.js', !!nodes.indexOf(name + '.js'));
-
         if (-1 !== nodes.indexOf(name)) {
           if (/\.js$/.exec(name)) {
             // probably a file
@@ -46,14 +44,11 @@
             paths.push(name);
             name = main;
             fs.readFile(modulePath + '/' + pathname + '/' + main, onFileRead);
-            //fs.readFile(pathname + '/' + main, onFileRead);
           }
         } else if (-1 !== nodes.indexOf(name + '.js')) {
-          console.log('probably a file', pathname + '.js');
           // probably a file
           name += '.js';
           fs.readFile(modulePath + '/' + pathname + '.js', onFileRead);
-          //fs.readFile(pathname + '.js', onFileRead);
         } else {
           // not a directory nor a file
           // probably doesn't exist
@@ -64,7 +59,6 @@
       paths = pathname.split('/');
       name = paths.pop();
       
-      console.log('foo:', name, modulePath + '/' + paths.join('/'));
       fs.readdir(modulePath + '/' + paths.join('/'), onDirRead);
     }
 
@@ -101,11 +95,6 @@
         , filename = meta.submoduleName
         , script
         ;
-
-      //console.log('showDepsFile', meta, pkgname, pkgroot, dirname, filename);
-
-      //function showDepsFile(pkgname, pkgroot, dirname, filename, callback) 
-      //showDepsFile(meta.name, meta.lib || '.', '.', 'test-local-deps.js', onShownDepsFile);
 
       function onScriptStr(str) {
         var deps = {}
@@ -189,7 +178,6 @@
           throw err;
           return;
         }
-        //console.log('[LOG]: ', str && str.length);
         dirname = dir;
         filename = name;
         script = str;
@@ -197,17 +185,6 @@
       }
 
       readScript(dirname + '/' + filename, onReadScript);
-    }
-
-    function onShownDepsFile(err, tree) {
-      if (err) {
-        console.error('ERROR: [onShownDepsFile]');
-        throw err;
-        console.error(err);
-        return;
-      }
-
-      console.log(JSON.stringify(tree, null, '  '));
     }
 
     function onPackageJsonRead(err, meta) {
@@ -229,7 +206,6 @@
       meta.submoduleName = meta.main || 'index.js';
       meta.submodulePath = '';//modulePath + '/' + (meta.lib || '');
 
-      console.log(meta);
       showDepsFile(meta, callback);
     }
 
@@ -237,16 +213,4 @@
   }
 
   module.exports = handleModule;
-
-  handleModule('./foomodule', function (err, tree) {
-      if (err) {
-        console.error('ERR: [onShownDepsFile]');
-        throw err;
-        console.error(err);
-        return;
-      }
-
-      console.log(JSON.stringify(tree, null, '  '));
-  });
-
 }());
