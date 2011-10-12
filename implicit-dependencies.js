@@ -119,6 +119,7 @@
             deps[dep].name = nextName;
             deps[dep].modulepath = dep;
             deps[dep].package = pkgname;
+            deps[dep].scriptSource = script;
             next();
           }
 

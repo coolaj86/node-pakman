@@ -174,6 +174,7 @@
       ;
 
     function sortDepsHelper(dependencyTree, callback) {
+      console.log('sortDepsHelper');
       function eachDep(next, modulename) {
         var module = dependencyTree[modulename]
           ;
@@ -298,12 +299,13 @@
 
 
     function onLocalDeps(err, pkg, missing, builtIn, local, npmDeps) {
+      console.log('Local Deps Loaded');
 
+      /*
       console.log('[ERROR]:', err);
       console.log('[MISSING]:', missing);
       console.log('[BUILT-IN]:', builtIn);
       console.log('[LOCAL]:', local);
-      /*
         console.log('[NPM]:', npmDeps);
         Object.keys(npmDeps).forEachAsync(function (next, modulename) {
           var module = npmDeps[modulename];
@@ -311,45 +313,65 @@
         });
       */
       function doInstall(next, depname) {
+        console.log('onDoneDidInstall');
+        function gotModule() {
+          next();
+          return;
+          getLocalDeps('node_modules/' + depname, function (err, pkg, tree, missing, builtin, local, npmDeps) {
+            console.log('[GOT DEPS]', err, tree);
+          });
+        }
+
         if (installedModules[depname]) {
           console.log('Already installed', depname);
-          next();
+          gotModule();
           return;
         }
 
         npm.commands.install(__dirname + '/', [depname], function (err, array, map, versionAndPath) {
+          console.log('onNpmInstall');
           if (err) {
             console.error('[NPM] [' + depname + ']', err.message);
             return;
           }
-          next();
+          gotModule(err, array, map, versionAndPath);
         });
       }
 
       function onGotNpmDeps (err, modules) {
+        console.log('onGotNpmDeps');
         var map
           , array
           ;
+
+        console.log();
 
         map = traverser.mapByDepth(pkg);
         array = traverser.reduceByDepth(map);
 
         function afterInstall() {
-          //array.forEachAsync(getLocalDeps);
-        }
-
-        array.forEachAsync(doInstall).then(function () {
           console.log('All modules installed');
           console.log(pkg && true);
-        }).then(afterInstall);
+          //array.forEachAsync(getLocalDeps);
+          array.forEachAsync(function (next, depname) {
+            getLocalDeps('node_modules/' + depname, function (err, pkg, tree, missing, builtin, local, npmDeps) {
+              console.log('[GOT DEPS]', err, tree);
+              next();
+            });
+          });
+        }
+
+        array.forEachAsync(doInstall).then(afterInstall);
       }
 
       getAllNpmDeps(pkg, onGotNpmDeps);
     }
 
     function getLocalDeps(modulePath, callback) {
+      console.log('onGotLocalDeps');
       modulePath = __dirname + '/' + modulePath;
       getLocalRequires(modulePath, function (err, tree) {
+        console.log('onGotLocalRequires');
         var missing = []
           , extra = []
           , sortedModules
@@ -363,6 +385,7 @@
         }
 
         function onPackageJson(err, data) {
+          console.log('onPackageJson');
 
           data = JSON.parse(data);
           data.dependencyTree = data.dependencyTree || {};
@@ -380,7 +403,8 @@
           });
 
           sortDeps(tree.dependencyTree, function (err, missing, builtin, local, npm) {
-            callback(err, data, missing, builtin, local, npm);
+            console.log('onSortDeps');
+            callback(err, data, tree, missing, builtin, local, npm);
           });
 
         }
