@@ -9,7 +9,7 @@
   //console.log('npm.commands', npm.commands);
 
   // https://github.com/isaacs/npm/issues/1493
-  // this fixes a broken part of the API
+  // this fixes a confusing part of the API
   function hotFix1493(map) {
     var fixedMap = map
       , fixedArray = []

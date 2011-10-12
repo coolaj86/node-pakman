@@ -107,6 +107,8 @@
             ;
 
           function onShownLocalDeps(err, tree) {
+            dep = path.normalize(pkgname + '/' + dep);
+
             if (err) {
               deps[dep] = { error: err };
             } else {
@@ -114,14 +116,21 @@
             }
 
             deps[dep].require = requireString;
-            deps[dep].nextName = nextName;
-            deps[dep].dep = dep;
+            deps[dep].name = nextName;
+            deps[dep].modulepath = dep;
             deps[dep].package = pkgname;
             next();
           }
 
           function onShownModuleDeps(err, tree) {
             if (err) { 
+              /*
+              if (/^.{0,2}\//.exec(requireString)) {
+                onShownLocalDeps(err, null);
+                return;
+              }
+              */
+
               tree = tree || {};
               tree.warning = {
                   code: 300
@@ -151,15 +160,17 @@
             //showDepsFile(pkgname, pkgroot, pathname, nextName, onShownModuleDeps);
             showDepsFile({ name: pkgname, lib: pkgroot, submodulePath: pathname, submoduleName: nextName }, onShownModuleDeps);
           } else {
-            deps[dep] = {};
+            deps[dep] = {
+                name: dep
+            };
             next();
           }
         }
 
         function onDepsDone() {
           callback(null, {
-              dependencies: deps
-            , pathname: dirname
+              dependencyTree: deps
+            , pathname: path.normalize(dirname)
             , filename: filename
           });
         }
