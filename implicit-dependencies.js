@@ -9,7 +9,7 @@
     , reIsLocal = /^\.{0,2}\//
     ;
 
-  function handleModule(modulePath, masterCallback) {
+  function getLocalRequires(modulePath, masterCallback) {
 
     function readScript(pathname, callback) {
       var paths
@@ -219,5 +219,5 @@
     fs.readFile(modulePath + '/package.json', onPackageJsonRead);
   }
 
-  module.exports = handleModule;
+  module.exports = getLocalRequires;
 }());
