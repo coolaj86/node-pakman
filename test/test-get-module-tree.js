@@ -6,8 +6,7 @@
 (function () {
   "use strict";
 
-  var fs = require('fs')
-    , getPackageInfo = require('../lib/get-package-info').getPackageInfo
+  var getPackageInfo = require('../lib/get-package-info').getPackageInfo
     , getModuleTree = require('../lib/get-module-tree').getModuleTree
     , moduleRoot = process.argv[2]
     ;
@@ -29,6 +28,11 @@
   function wrapPackageRoot(err, meta) {
     var leaf = {}
       ;
+
+    if (err) {
+      console.error(err);
+      return;
+    }
 
     // TODO treat main as require list
     leaf.name = meta.main || 'index';
