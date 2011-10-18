@@ -10,6 +10,10 @@
   "engines": {
     "node": "~v0.4.8"
   },
-  "dependencies": {},
+  "dependencies": {
+      "npm": ">= 0.0.0"
+    , "futures": "~ 2.3"
+    , "ahr2": "> 2.0"
+  },
   "devDependencies": {}
 }
