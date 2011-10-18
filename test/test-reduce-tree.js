@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-// ./test-sort-tree-by-types.js ../test_modules/foomodule/
-// ./test-sort-tree-by-types.js ../test_modules/doesnt-exist/
+// ./test-reduce-tree.js ../test_modules/foomodule/
+// ./test-reduce-tree.js ../test_modules/doesnt-exist/
 
 (function () {
   "use strict";
 
   var getPackageTree = require('../lib/get-package-tree').getPackageTree
-    , sortTreeByTypes = require('../lib/sort-tree-by-types').sortTreeByTypes
+    , reduceTree = require('../lib/reduce-tree').reduceTree
     , moduleRoot = process.argv[2]
     ;
 
@@ -22,13 +22,18 @@
       return;
     }
 
-    //list = reduceTree(tree, log)
     console.log(arguments);
   }
 
-  function sortTree(err, pkg, tree) {
-    sortTreeByTypes(tree, log)
+  function reduce(err, pkg, tree) {
+    var list
+      ;
+
+    console.log(tree && 'heya');
+    list = reduceTree(tree, log)
+
+    log(list);
   }
 
-  getPackageTree(moduleRoot, sortTree);
+  getPackageTree(moduleRoot, reduce);
 }());
