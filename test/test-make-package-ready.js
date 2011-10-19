@@ -5,7 +5,7 @@
     , moduleRoot = process.argv[2] || '../test_modules/foomodule'
     ;
 
-  function log(err, missing, unlisted, unused, local, pm, builtin) {
+  function log(err, pkg, missing, unlisted, unused, local, pm, builtin) {
     if (err) {
       console.error(err);
       return;

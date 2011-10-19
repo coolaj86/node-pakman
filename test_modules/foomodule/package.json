@@ -10,11 +10,19 @@
   "engines": {
     "node": "~v0.4.8"
   },
+  "provides": "foomodule-browser",
+  "enderDependencies": {
+      "querystring": ">= 0.0.0"
+    , "futures": "~ 2.3"
+    , "ahr2": "> 2.0"
+    , "ender-only": ">= 0.0.0"
+  },
   "dependencies": {
       "npm": ">= 0.0.0"
     , "querystring": ">= 0.0.0"
     , "futures": "~ 2.3"
     , "ahr2": "> 2.0"
+    , "npm-only": "> 2.0"
   },
   "devDependencies": {}
 }
