@@ -28,7 +28,8 @@ Demo
 API
 ===
 
-In order to make debugging (and extension) simpler, every API function is in it's own file in `lib` and contains and point-and-shoot test in `test`.
+In order to make debugging (and extension) simpler,
+every API function is in it's own file in `lib` and contains and point-and-shoot test in `test`.
 
 modules
 ---
@@ -40,7 +41,7 @@ Each module object looks something like this:
         "name": "corge",
         "pathname": ".",                          // relative to package.json.lib
         "filename": "corge.js",
-        "require": "../corge",                    // how this module was require by it's parent
+        "require": "../corge",                    // how this module was required by its parent
         "modulepath": "foomodule-browser/corge",
         "providespath": "foomodule/corge",        // where package.json.provides is 'foomodule'
         "requires": [
