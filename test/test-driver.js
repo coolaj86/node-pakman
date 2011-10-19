@@ -166,65 +166,6 @@
     }
   }
 
-  function sortDeps(packageTree, callback) {
-    var missingDeps = {}
-      , npmDeps = {}
-      , localDeps = {}
-      , builtIn = {}
-      ;
-
-    function sortDepsHelper(dependencyTree, callback) {
-      console.log('sortDepsHelper');
-      function eachDep(next, modulename) {
-        var module = dependencyTree[modulename]
-          ;
-
-        function onReady() {
-          sortDepsHelper(module.dependencyTree, next);
-        }
-
-        function onNpm(err, map, array) {
-          if (err) {
-            missingDeps[modulename] = module;
-          } else {
-            npmDeps[modulename] = array[0];
-            module.npm = true;
-          }
-
-          onReady();
-        }
-
-        if (isCoreModule(modulename)) {
-          builtIn[modulename] = module;
-        }
-        else if (module.error) {
-          missingDeps[modulename] = module;
-        }
-        else if (module.pathname && !module.warning) {
-          localDeps[modulename] = module;
-        }
-        else {
-          if (!cachedNpmModules[modulename]) {
-            view(modulename, onNpm);
-            return;
-          }
-          console.log(cachedNpmModules[modulename]);
-          onNpm(null, cachedNpmModules[modulename].map, cachedNpmModules[modulename].array);
-        }
-
-        onReady();
-      }
-
-      function onDone() {
-        callback(null, missingDeps, builtIn, localDeps, npmDeps);
-      }
-
-      Object.keys(dependencyTree || {}).forEachAsync(eachDep).then(onDone);
-    }
-
-    sortDepsHelper(packageTree, callback);
-  }
-
   function getAllNpmDeps(masterTree, callback) {
     var modules = {}
       ;
