@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 (function () {
   "use strict";
 
@@ -5,7 +7,7 @@
   // This way `Object.keys(deps).forEach(fn)` will simply be a noop on `{}`,
   // which is much more intuitive than `if {} else`ing on -1 and 0
   // whether or not a module is installed can be handled elsewhere (as you will see later on)
-  var traverser = require('./dependency-traverser')
+  var traverser = require('../lib/reduce-tree')
     , packageTree = {
           "dependencyTree": {
               "foo": {

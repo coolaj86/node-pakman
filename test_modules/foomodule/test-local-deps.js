@@ -5,6 +5,7 @@
   var npm = require('npm')
     , fs = require('fs')
     , path = require('path')
+    , querystring = require('querystring')
     , xyz = require('test-local-deps/corge')
     , abc = require('./foo')
     , allModules = {}

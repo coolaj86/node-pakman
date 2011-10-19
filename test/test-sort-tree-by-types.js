@@ -23,7 +23,7 @@
     }
 
     //list = reduceTree(tree, log)
-    console.log(arguments);
+    console.log(pm);
   }
 
   function sortTree(err, pkg, tree) {
