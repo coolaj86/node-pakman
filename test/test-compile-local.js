@@ -50,6 +50,9 @@
 
       console.log(newScript);
     });
+
+    //console.log(pm);
+    //console.log(JSON.stringify(local[0]));
   }
 
   makePackageReady(moduleRoot, log);
