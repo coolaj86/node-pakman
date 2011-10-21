@@ -11,9 +11,9 @@
     "node": ">= v0.2.0"
   },
   "dependencies": {
-      "npm": ">= 0.0.0"
-    , "Array.prototype.forEachAsync": "> 0.0.0"
-    , "future": ">= 2.3"
+      "npm": "= 1.0.101"
+    , "Array.prototype.forEachAsync": "> 2.1"
+    , "future": ">= 2.1"
   },
   "devDependencies": {}
 }
