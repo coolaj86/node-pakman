@@ -10,12 +10,12 @@
     // TODO move to where?
 
     if (!module) {
-      console.log('missing module', module);
+      console.error('missing module', module);
       return;
     }   
 
     if (!module.scriptSource) {
-      console.log('missing script source', module);
+      console.error('missing script source', module);
       return;
     }   
   
@@ -38,7 +38,6 @@
       + '\n}());'
       ;   
 
-    console.log(newScript);
     return newScript;
   }
 
