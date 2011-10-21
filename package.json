@@ -6,7 +6,7 @@
   "repository": {
       "url": "git://github.com/coolaj86/node-pakman.git"
   },
-  "main": "index",
+  "main": "lib/index",
   "engines": {
     "node": ">= v0.2.0"
   },
