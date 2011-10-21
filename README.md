@@ -100,3 +100,25 @@ Requires
   * `get-package-tree`
   * `normalize-package-dependencies`
   * `normalize-script-requires`
+
+API Tree
+===
+
+  * compile
+    * make-package-ready
+      * normalize-package-dependencies
+      * normalize-script-requires
+      * reduce-tree
+      * sort-tree-by-types
+        * get-npm-package-info
+          * get-package-info
+      * get-package-tree
+        * get-package-info
+        * get-module-tree
+          * get-module-leaf
+            * get-requires
+            * get-script
+              * get-file
+    * get-npm-tree
+      * get-npm-package-info
+      * get-package-info
