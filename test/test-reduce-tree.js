@@ -16,23 +16,14 @@
     return;
   }
 
-  function log(err, missing, builtin, local, pm) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    console.log(arguments);
-  }
-
   function reduce(err, pkg, tree) {
     var list
       ;
 
-    console.log(tree && 'heya');
-    list = reduceTree(tree, log)
+    //console.log(tree && 'heya');
+    list = reduceTree(tree)
 
-    log(list);
+    console.log(list);
   }
 
   getPackageTree(moduleRoot, reduce);

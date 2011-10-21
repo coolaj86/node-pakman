@@ -15,13 +15,15 @@
     return;
   }
 
-  function log(err, tree) {
+  function log(err, pkg, tree) {
     if (err) {
       console.error(err);
       return;
     }
 
-    console.log(JSON.stringify(tree, null, '  '));
+    //console.log(Object.keys(tree));
+    //console.log(JSON.stringify(tree, null, '  '));
+    console.log(tree.scriptSource);
   }
 
   getPackageTree(moduleRoot, log);

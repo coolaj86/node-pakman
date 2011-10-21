@@ -5,7 +5,7 @@
     , moduleRoot = process.argv[2] || '../test_modules/foomodule'
     ;
 
-  function log(err, pkg, missing, unlisted, unused, local, pm, builtin) {
+  function templateModule(err, pkg, missing, unlisted, unused, local, pm, builtin) {
     if (err) {
       console.error(err);
       return;
@@ -49,11 +49,12 @@
         ;
 
       console.log(newScript);
+      return newScript;
     });
 
     //console.log(pm);
     //console.log(JSON.stringify(local[0]));
   }
 
-  makePackageReady(moduleRoot, log);
+  makePackageReady(moduleRoot, templateModule);
 }());
