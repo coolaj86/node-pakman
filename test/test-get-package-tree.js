@@ -23,7 +23,7 @@
 
     //console.log(Object.keys(tree));
     //console.log(JSON.stringify(tree, null, '  '));
-    console.log(tree.scriptSource);
+    console.log(tree);
   }
 
   getPackageTree(moduleRoot, log);

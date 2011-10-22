@@ -49,11 +49,9 @@
         ;
 
       console.log(newScript);
-      return newScript;
     });
 
-    //console.log(pm);
-    //console.log(JSON.stringify(local[0]));
+    console.log(local.length);
   }
 
   makePackageReady(moduleRoot, templateModule);

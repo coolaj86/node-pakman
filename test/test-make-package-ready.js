@@ -35,21 +35,21 @@
     if (local.length) {
       console.log('[INFO] The following packages are part of this package:');
       local.forEach(function (m) {
-        console.warn('  ' + (m.modulepath || m.name));
+        console.log('  ' + (m.modulepath || m.name));
       });
     }
 
     if (pm.length) {
       console.log('[INFO] The following packages are needed by this package:');
       pm.forEach(function (m) {
-        console.warn('  ' + (m.modulepath || m.name));
+        console.log('  ' + (m.modulepath || m.name));
       });
     }
 
     if (builtin.length) {
       console.log('[INFO] The following modules are provided natively by the environment:');
       builtin.forEach(function (m) {
-        console.warn('  ' + (m.modulepath || m.name));
+        console.log('  ' + (m.modulepath || m.name));
       });
     }
   }
