@@ -3,6 +3,8 @@ pakman
 
 A collection of tools for building package managers.
 
+[`pakmanager`](http://github.com/coolaj86/node-pakmanager) is an example (but fully functional) package manager.
+
 Given a directory with a `package.json`, `pakman` can give you back concatonated normalized scripts that will run with a custom module loader - such as in the browser.
 
 Features
