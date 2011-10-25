@@ -2,6 +2,7 @@
 
   "use strict";
 
+  //function templateModule(next, pkg, module) {
   function templateModule(module) {
     var newScript
       ;   
@@ -38,6 +39,7 @@
       + '\n}());'
       ;   
 
+    // next(null, newScript);
     return newScript;
   }
 
