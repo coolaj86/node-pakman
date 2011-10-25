@@ -54,13 +54,6 @@ Each module object looks something like this:
         "dependencyList": [ ... ], // other modules, ordered (by line number)
         "dependencyTree": { ... }, // other modules, mapped by modulepath
 
-        // in the case that it is unknown if the module will be supplied elsewhere
-        "warning": {
-            "code": 300,
-            "symbol": "AMBIGUOUS_DEPENDENCY",
-            "message": "This module appeared as though it should be local, but may be in npm"
-        },
-
         // in the case that it is known the module cannot be found
         "error": {
             "stack": "Error: Couldn't find \"./doesnt-exist\"\n    at onDirRead (./lib/get-script.js:50:18)",
@@ -68,13 +61,51 @@ Each module object looks something like this:
         }
     }
 
+pakman
+---
+
+All API methods are attached to the pakman object.
+
+    var pakman = require('pakman')
+      ;
+
+    console.log(Object.keys(pakman));
+
+compile
+---
+
+Given a module path, and a render function, compiles all of the local dependencies (pre-normalized).
+
+    var compile = require('./lib/compile').compile
+      , fs = require('fs')
+      ;
+
+    function render(module) {
+      return ''
+        + '\n' + '// module: ' + module.modulepath + ' as ' + module.providespath
+        + '\n' + '(function () {'
+        + '\n' + module.scriptSource 
+        + '\n' + '}());'
+        + '\n' + // footer'
+        + '\n
+        ;
+    }
+
+    function writeOut(err, compiled) {
+      fs.writeFile('app.js', 'utf8');
+    }
+
+    compile('/path/to/some/module', render, writeOut);
+
+TODO: Provide package info and allow async rendering: `function render(pkg, module, fn)`
+
 makePackageReady
 ---
 
 Given a module path, makes the module package-ready - hands you back everything you need to template the dependency with your own packag system.
 
 
-    var makePackageReady = require('../lib/make-package-ready').makePackageReady
+    var makePackageReady = require('./lib/make-package-ready').makePackageReady
       ;
 
     function handlePackageComponents(error, pkg, missing, unlisted, unused, local, pm, builtin) {
@@ -100,6 +131,21 @@ Requires
   * `get-package-tree`
   * `normalize-package-dependencies`
   * `normalize-script-requires`
+
+getPackageInfo
+---
+
+Given a module path, gives the parsed `package.json` with normalized `main` and `lib` (both *will* exist).
+
+    var getPackageInfo = require('./lib/get-package-info').getPackageInfo
+      ;
+
+    function handlePackageInfo(error, pkg) {
+      // error{} - couldn't read package.json, wrong permissions, etc
+      // pkg{} - the normalized package.json info
+    }
+
+    getPackageInfo('/path/to/some/module', handlePackageInfo);
 
 API Tree
 ===

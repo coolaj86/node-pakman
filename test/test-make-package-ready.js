@@ -12,7 +12,7 @@
     }
 
     if (missing.length) {
-      console.warn('[WARN] The following packages are `required`, but not in the package, nor on npm:');
+      console.error('[ERROR] The following packages are `required`, but not in the package, nor on npm:');
       missing.forEach(function (m) {
         console.warn('  ' + (m.modulepath || m.name));
       });
