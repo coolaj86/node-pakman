@@ -149,7 +149,7 @@ Given a module path, gives the parsed `package.json` with normalized `main` and 
 
     getPackageInfo('/path/to/some/module', handlePackageInfo);
 
-API Tree
+API Call Graph
 ===
 
   * compile
