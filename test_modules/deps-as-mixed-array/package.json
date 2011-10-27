@@ -7,7 +7,10 @@
     "type": "git",
     "url": "git://github.com/coolaj86/node-pakman.git"
   },
-  "dependencies": [],
+  "dependencies": [
+    "future",
+    "join@>=2.1"
+  ],
   "engines": {
     "node": ">= v0.2"
   }
