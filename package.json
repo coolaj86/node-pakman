@@ -2,7 +2,7 @@
   "author": "AJ ONeal <coolaj86@gmail.com> (http://coolaj86.info)",
   "name": "pakman",
   "description": "A tool for building package managers",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "repository": {
       "url": "git://github.com/coolaj86/node-pakman.git"
   },
