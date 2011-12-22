@@ -30,6 +30,10 @@
     console.log(pkg.name);
     console.log(prev);
     console.log(leaf);
+    if (leaf.error) {
+      console.error(leaf.error.message);
+      console.error(leaf.error.stack);
+    }
   }
 
   function onReadFile(err, pkg) {
@@ -37,19 +41,22 @@
       ;
 
     if (err) {
-      console.error(err);
+      console.error(err.message);
+      console.error(err.stack);
       return;
     }
 
     try {
       pkg = JSON.parse(pkg.toString('utf8'));
     } catch(e) {
-      console.error(err);
+      console.error(err.message);
+      console.error(err.stack);
       return;
     }
 
     pkg.moduleRoot = moduleRoot;
     prev.submodulePath = prevPath;
+    prev.pathname = '.';
 
     getModuleLeaf(pkg, prev, requireString || pkg.main || './index', log);
   }
