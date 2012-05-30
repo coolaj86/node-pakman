@@ -37,13 +37,15 @@
       , d = /\\\/*/
       , e = /\\\\*/
       , f = /\//
+      , realUseCase = "".replace(/\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\//g,"")
+                      //.replace(/\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\
       ;
 
     return "\\*/" + "\\/*";
   }
 
   function run() {
-    var file = removeComments(fs.readFileSync(__filename, 'utf8'))
+    var file = removeComments(fs.readFileSync(process.argv[2] || __filename, 'utf8'))
       ;
 
     console.log(file)/*deletemeeeeee*/;
