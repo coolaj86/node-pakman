@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/*jshint strict:true node:true es5:true onevar:true laxcomma:true laxbreak:true eqeqeq:true immed:true latedef:true*/
 (function () {
   "use strict";
 
@@ -8,6 +8,7 @@
   // which is much more intuitive than `if {} else`ing on -1 and 0
   // whether or not a module is installed can be handled elsewhere (as you will see later on)
   var traverser = require('../lib/reduce-tree')
+    , forEachAsync = require('forEachAsync')
     , packageTree = {
           "dependencyTree": {
               "foo": {
@@ -70,8 +71,7 @@
   //Then you can do the module installs and write out to ender.js:
 
 
-  // require('Array.prototype.forEachAsync')
-  installArray.forEachAsync(doInstall).then(function () {
+  forEachAsync(installArray, doInstall).then(function () {
     installArray.forEach(function (dep) {
       // replace this log with the function that writes the module out to ender.js
       console.log(dep);
